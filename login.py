@@ -1,7 +1,21 @@
 from tkinter import *
 from db.db import Database
 
-db = Database("./db/TASK_MANAGEMENT.db")
+DRIVER_NAME = 'ODBC Driver 11 for SQL Server'
+SERVER_NAME = 'KEANTHAI41A7'
+DATABASE_NAME = 'TASK_MANAGEMENT'
+# uid=<username>;
+# pwd=<password>;
+
+# databaseLink = "DRIVER={Devart ODBC Driver for SQL Server};Server=localhost;Database=master;Port=myport;User ID=myuserid;Password=mypassword"
+connection_string = f"""
+    DRIVER={{{DRIVER_NAME}}};
+    SERVER={SERVER_NAME};
+    DATABASE={DATABASE_NAME};
+    Trust_Connection=yes;
+"""
+db = Database(connection_string)
+#db = Database("./db/TASK_MANAGEMENT.db")
 
 def handleLogin():
     user = username.get()
@@ -23,7 +37,7 @@ def Loginform():
     global login_screen
     login_screen = Tk()
     #Setting title of screen
-    login_screen.title("Login | Task Management System")
+    login_screen.title("Login | Task Management System ")
     #setting height and width of screen
     login_screen.geometry("350x250")
     login_screen.eval('tk::PlaceWindow . center')

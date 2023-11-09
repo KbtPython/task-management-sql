@@ -1,11 +1,12 @@
 import sqlite3
 from systemEnum import PirorityEnum, TaskStatus
 from datetime import datetime
+import pyodbc
 
 class Database:
 
     def __init__(self, db):
-        self.con = sqlite3.connect(db)
+        self.con = pyodbc.connect(db)
         self.cur = self.con.cursor()
         sql_employee = """
             CREATE TABLE IF NOT EXISTS tbl_employee(
