@@ -1,12 +1,16 @@
 import sqlite3
 from systemEnum import PirorityEnum, TaskStatus
 from datetime import datetime
-import pyodbc
+import psycopg2
 
 class Database:
-
     def __init__(self, db):
-        self.con = pyodbc.connect(db)
+        hostname = 'localhost'
+        database = 'TASK_MANAGEMENT'
+        username = 'postgres'
+        pwd = '12345'
+        port = '5432'
+        self.con = psycopg2.connect(host = hostname, dbname = database, user = username, pwd =pwd, port = port)
         self.cur = self.con.cursor()
         sql_employee = """
             CREATE TABLE IF NOT EXISTS tbl_employee(
