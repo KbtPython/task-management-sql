@@ -1,16 +1,17 @@
-import sqlite3
+
+import psycopg2
 from systemEnum import PirorityEnum, TaskStatus
 from datetime import datetime
-import psycopg2
+
 
 class Database:
-    def __init__(self, db):
+    def __init__(self):
         hostname = 'localhost'
         database = 'TASK_MANAGEMENT'
         username = 'postgres'
         pwd = '12345'
         port = '5432'
-        self.con = psycopg2.connect(host = hostname, dbname = database, user = username, pwd =pwd, port = port)
+        self.con = psycopg2.connect(host = hostname, dbname = database, user = username, password = pwd, port = port)
         self.cur = self.con.cursor()
         sql_employee = """
             CREATE TABLE IF NOT EXISTS tbl_employee(
@@ -40,7 +41,7 @@ class Database:
             );
         """
         self.cur.execute(sql_employee)
-        self.cur.execute(sql_task)
+#        self.cur.execute(sql_task)
         self.con.commit()
     
     def login(self, username, password):
@@ -64,6 +65,16 @@ class Database:
                 message = "Wrong username or password!!!"
         returnData['message'] = message
         return returnData
+
+    def getData(self):
+        cursor = self.cur.execute("""
+            SELECT * FROM tbl_employee
+        """)
+        result = cursor.fetchone()
+        if (result):
+            return result
+        else:
+            print('not found')
 
     def getAllTasks(self):
         self.cur.execute("""
