@@ -1,21 +1,7 @@
 from tkinter import *
 from db.db import Database
 
-DRIVER_NAME = 'ODBC Driver 11 for SQL Server'
-SERVER_NAME = 'KEANTHAI41A7'
-DATABASE_NAME = 'TASK_MANAGEMENT'
-# uid=<username>;
-# pwd=<password>;
-
-# databaseLink = "DRIVER={Devart ODBC Driver for SQL Server};Server=localhost;Database=master;Port=myport;User ID=myuserid;Password=mypassword"
-connection_string = f"""
-    DRIVER={{{DRIVER_NAME}}};
-    SERVER={SERVER_NAME};
-    DATABASE={DATABASE_NAME};
-    Trust_Connection=yes;
-"""
-db = Database(connection_string)
-#db = Database("./db/TASK_MANAGEMENT.db")
+db = Database()
 
 def handleLogin():
     user = username.get()
