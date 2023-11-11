@@ -53,12 +53,14 @@ footFrame = Frame(ROOT, height=50, bg='grey')
 footFrame.pack(side="bottom", fill=X)
     
 def homePage(employeeInformation: tuple, db: Database):
-    
     currentEmployeeLoginName.set(employeeInformation['name'])
     currentEmployeeLoginId.set(employeeInformation['id'])
     getAllTaskToTable(db)
     ROOT.mainloop()
 
+def formAuditLog(db: Database):
+    mainFrame.pack_forget()
+    
 def formNewTask(db: Database, taskId: int):
     mainFrame.pack_forget()
     valueTaskId.set(0 if taskId is None else taskId)
@@ -175,6 +177,9 @@ def onButtonBackToList(db: Database) :
     
 def onButtonNewTask(db: Database):
     formNewTask(db, None)
+
+def onButtonLog(db: Database):
+    getAllAuditLog(db)
     
 def onSelectTableRow(db: Database, table: ttk.Treeview):
     for i in table.selection():
@@ -183,7 +188,38 @@ def onSelectTableRow(db: Database, table: ttk.Treeview):
         taskId = record[0]
         print(taskId)
         formNewTask(db, taskId)
+
+def getAllAuditLog(db: Database):
+    # clear all widget
+    for widget in mainFrame.winfo_children():
+       widget.destroy()
+       
+    headerColumns = ('No', 'Description', 'Created Date')
+    table = ttk.Treeview(mainFrame, columns=headerColumns, show='headings')
+
+    for header in headerColumns:
+        table.heading(header, text=header)
+        # table.column("#0", minwidth=0, width=5, stretch=YES)
+    
+    dataFromDb = db.getAllAuditLogs()
+
+    index = 0
+    for data in dataFromDb:
+        index += 1
+        no = index
+        description = data[1]
+        createdDate = data[2]
         
+        displayTableRow = (index, description, createdDate)
+        table.insert('', END, values=displayTableRow)
+    
+    btnList = Button(mainFrame, text="Home", width=10, fg="white", bg="gray", bd=0)
+    btnList.pack(ipady=5, pady=20, padx=50, anchor='nw')
+    btnList.bind('<Button-1>', lambda e: onButtonBackToList(db))
+    
+    table.pack(fill="x", padx=50)
+    mainFrame.pack(fill=BOTH)
+    
 def getAllTaskToTable(db: Database):
     # clear all widget
     for widget in mainFrame.winfo_children():
@@ -217,13 +253,18 @@ def getAllTaskToTable(db: Database):
 
     table.bind('<<TreeviewSelect>>', lambda e: onSelectTableRow(db, table))
     
+    btnLog = Button(mainFrame, text="Audit Log", width=15, fg="white", bg="gray", bd=0)
+    btnLog.bind('<Button-1>', lambda e: onButtonLog(db))
+    btnLog.pack(ipady=5, pady=20, padx=50, anchor='nw')
+    
     btnNewTask = Button(mainFrame, text="New Task", width=15, fg="white", bg="green", bd=0)
     btnNewTask.bind('<Button-1>', lambda e: onButtonNewTask(db))
     btnNewTask.pack(ipady=5, pady=20, padx=50, anchor='ne')
+    
     table.pack(fill="x", padx=50)
     mainFrame.pack(fill=BOTH)
 
-# db = Database("./db/TASK_MANAGEMENT.db")
+# db = Database()
 # employeeInformation = dict()
 # employeeInformation["id"] = 1
 # employeeInformation["name"] = "Kong Bunthoeurn"

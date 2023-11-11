@@ -49,6 +49,13 @@ class Database:
         """)
         rows = self.cur.fetchall()
         return rows
+
+    def getAllAuditLogs(self):
+        self.cur.execute("""
+            SELECT * FROM tbl_log
+        """)
+        rows = self.cur.fetchall()
+        return rows
     
     def getOneTask(self, taskId: int):
         cursor = self.cur.execute("""
