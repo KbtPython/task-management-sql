@@ -154,7 +154,6 @@ def formNewTask(db: Database, taskId: int):
         
 def onButtonClose(db: Database):
     taskId = valueTaskId.get()
-    print(taskId)
     db.closeTask(taskId)
     onButtonBackToList(db)
     
@@ -186,7 +185,6 @@ def onSelectTableRow(db: Database, table: ttk.Treeview):
         item = table.item(i)
         record = item['values']
         taskId = record[0]
-        print(taskId)
         formNewTask(db, taskId)
 
 def getAllAuditLog(db: Database):
@@ -194,8 +192,8 @@ def getAllAuditLog(db: Database):
     for widget in mainFrame.winfo_children():
        widget.destroy()
        
-    headerColumns = ('No', 'Description', 'Created Date')
-    table = ttk.Treeview(mainFrame, columns=headerColumns, show='headings')
+    headerColumns = ('No', 'Description', 'Created Date', 'Created By')
+    table = ttk.Treeview(mainFrame, columns=headerColumns, show='headings', height=30)
 
     for header in headerColumns:
         table.heading(header, text=header)
@@ -209,8 +207,9 @@ def getAllAuditLog(db: Database):
         no = index
         description = data[1]
         createdDate = data[2]
+        createdBy = data[4]
         
-        displayTableRow = (index, description, createdDate)
+        displayTableRow = (index, description, createdDate, createdBy)
         table.insert('', END, values=displayTableRow)
     
     btnList = Button(mainFrame, text="Home", width=10, fg="white", bg="gray", bd=0)
@@ -226,7 +225,7 @@ def getAllTaskToTable(db: Database):
        widget.destroy()
        
     headerColumns = ('Id', 'No', 'Task Name', 'Priority', 'Start Date', 'Due Date', 'Assign', 'Created By', 'Created At', 'Status')
-    table = ttk.Treeview(mainFrame, columns=headerColumns, show='headings')
+    table = ttk.Treeview(mainFrame, columns=headerColumns, show='headings', height=30)
     for header in headerColumns:
         table.heading(header, text=header)
     
@@ -264,8 +263,8 @@ def getAllTaskToTable(db: Database):
     table.pack(fill="x", padx=50)
     mainFrame.pack(fill=BOTH)
 
-# db = Database()
-# employeeInformation = dict()
-# employeeInformation["id"] = 1
-# employeeInformation["name"] = "Kong Bunthoeurn"
-# homePage(employeeInformation, db)
+db = Database()
+employeeInformation = dict()
+employeeInformation["id"] = 1
+employeeInformation["name"] = "Kong Bunthoeurn"
+homePage(employeeInformation, db)
