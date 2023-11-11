@@ -6,7 +6,7 @@ db = Database()
 def handleLogin():
     user = username.get()
     pwd = password.get()
-    responseMessage = db.getData() #db.login(user, pwd)
+    responseMessage = db.login(user, pwd)
     print(responseMessage)
     loginMessage = responseMessage['message']
     

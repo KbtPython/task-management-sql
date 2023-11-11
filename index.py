@@ -11,8 +11,8 @@ TABLE = ttk.Treeview()
 ROOT.title("Task Management System")
 ROOT.geometry("1366x710")
 ROOT.config(bg="Whitesmoke")
-ROOT.attributes('-fullscreen', True)
-# ROOT.attributes('-zoomed', True)
+# ROOT.attributes('-fullscreen', True)
+ROOT.attributes('-zoomed', True)
 
 # variable
 currentEmployeeLoginName = StringVar()
