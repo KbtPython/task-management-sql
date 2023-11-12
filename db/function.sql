@@ -22,7 +22,8 @@ CREATE OR REPLACE FUNCTION update_task_log()
 $$
 begin
     INSERT INTO tbl_log (created_by, description) 
-   VALUES(new.created_by, concat('user has been update task id = ', new.id, ', task name = ', old.title, ' -> ', new.title, ', status = ', old.status, ' -> ', new.status));
+   VALUES(new.created_by, concat('user has been update task id = ', new.id, ',
+    task name = ', old.title, ' -> ', new.title, ', status = ', old.status, ' -> ', new.status));
 RETURN NEW;
 END;
 $$
@@ -100,7 +101,8 @@ LANGUAGE plpgsql
 AS $$
 BEGIN
   INSERT INTO tbl_task (title, description, priority, status, start_date, due_date, assign_employee_id, created_by, created_date)
-  VALUES (title, description, priority, status, cast(start_date as date), cast(due_date as date), assign_employee_id, created_by, cast(created_date as timestamp));
+  VALUES (title, description, priority, status, cast(start_date as date), cast(due_date as date), assign_employee_id, created_by,
+   cast(created_date as timestamp));
 END;
 $$;
 
