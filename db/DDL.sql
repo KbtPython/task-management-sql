@@ -81,5 +81,7 @@ ALTER TABLE "tbl_task_history" ADD FOREIGN KEY ("created_by") REFERENCES "tbl_em
 ALTER TABLE "tbl_task_history" ADD FOREIGN KEY ("task_id") REFERENCES "tbl_task" ("id");
 ALTER TABLE "tbl_log" ADD FOREIGN KEY ("created_by") REFERENCES "tbl_employee" ("id");
 
-
-
+INSERT INTO tbl_employee ("name",username,"password") VALUES
+	 ('Kong Bunthoeurn','kbt','12345'),
+	 ('thai','thai','12345'),
+	 ('Sila','sila','12345') ON CONFLICT DO nothing;
